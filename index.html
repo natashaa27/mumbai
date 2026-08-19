@@ -354,31 +354,6 @@
     min-width: 0;
   }
 
-  .avatar {
-    position: relative;
-    flex: none;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 17px;
-    background: var(--brass-tint);
-  }
-
-  .avatar-logo {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    padding: 5px;
-    box-sizing: border-box;
-    background: var(--paper-raised);
-  }
-
   .card h3 {
     margin: 0;
     font-size: 17px;
@@ -393,13 +368,6 @@
     margin-top: 3px;
     letter-spacing: 0.01em;
   }
-
-  .avatar[data-category="Cafe"] { background: var(--cat-cafe-bg); color: var(--cat-cafe-fg); }
-  .avatar[data-category="Restaurant"] { background: var(--cat-restaurant-bg); color: var(--cat-restaurant-fg); }
-  .avatar[data-category="Bakery"] { background: var(--cat-bakery-bg); color: var(--cat-bakery-fg); }
-  .avatar[data-category="Bar"] { background: var(--cat-bar-bg); color: var(--cat-bar-fg); }
-  .avatar[data-category="Street Food"] { background: var(--cat-street-food-bg); color: var(--cat-street-food-fg); }
-  .avatar[data-category="Sweets"] { background: var(--cat-sweets-bg); color: var(--cat-sweets-fg); }
 
   .card .notes {
     font-size: 13.5px;
@@ -812,10 +780,6 @@
       <input type="url" id="fLink" placeholder="https://maps.google.com/…">
     </div>
     <div class="field">
-      <label for="fDomain">Website (optional — used to show their logo)</label>
-      <input type="text" id="fDomain" placeholder="e.g. bastian.co.in">
-    </div>
-    <div class="field">
       <label for="fNotes">Notes</label>
       <textarea id="fNotes" placeholder="What you've heard, what to order…"></textarea>
     </div>
@@ -847,38 +811,38 @@
   var SEED_VERSION = 4;
 
   var SEED_PLACES = [
-    { name: 'Sammy Sosa', area: 'Andheri West', category: 'Restaurant', dishes: 'Chacho nachos, Peri peri chicken, Chocolate mud pie', domain: 'sammysosa.in' },
+    { name: 'Sammy Sosa', area: 'Andheri West', category: 'Restaurant', dishes: 'Chacho nachos, Peri peri chicken, Chocolate mud pie' },
     { name: 'Canteena', notesAppend: 'Unverified — couldn’t confirm the exact venue, double-check on Maps.' },
-    { name: '7 Hill', area: 'Juhu', category: 'Restaurant', dishes: 'Chilli chicken, Chinese chicken, Locha naan, Paneer malai kebab', logoUrl: 'https://b.zmtcdn.com/data/pictures/chains/4/20697484/b54e07e99c5f7bc6015969c0104e19d5.jpeg' },
-    { name: 'Toto’s', area: 'Bandra West', category: 'Bar', dishes: 'Chilli cheese toast, Kheema pav, Chicken lollipops, Peanut masala', logoUrl: 'https://b.zmtcdn.com/data/pictures/0/36950/01135c91dec9939d2208f1447407eb9f.jpg' },
-    { name: 'Mia Kebab', area: 'Khar West', category: 'Street Food', dishes: 'Chicken Changezi tandoori, Zaatar naan, Mutton seekh kebabs', logoUrl: 'https://b.zmtcdn.com/data/pictures/chains/2/19750432/f4898bb388bb89e4457bdb163fc3b6ab.jpg' },
-    { name: 'Stables', area: 'Andheri East', category: 'Bar', dishes: 'Wild mushroom risotto, Whiskey sour, Chicken sliders, Tiramisu', domain: 'thestablesmumbai.com' },
-    { name: 'Dough & Joe', notes: 'Pizza', area: 'Bandra West', category: 'Cafe', dishes: 'Thecha prawns pizza, Bombay keema pizza, Vietnamese coffee', logoUrl: 'https://b.zmtcdn.com/data/pictures/4/22305384/3db93674249278a8ad0210fc0e5fd77d.jpg' },
-    { name: 'Boojie', area: 'Bandra West', category: 'Cafe', dishes: 'Croissants, Hash brown, Greek salad, Mushroom bruschetta', domain: 'boojeecafe.com' },
-    { name: 'Punchline', area: 'Bandra West', category: 'Bar', dishes: 'Ghee-nius cocktail, Pickled packs, Crispy arbi & tender coconut', logoUrl: 'https://b.zmtcdn.com/data/pictures/8/22722888/3b7214aed5c9b4611b0834fb431760d3.jpg' },
-    { name: 'Bastian', area: 'Dadar', category: 'Restaurant', dishes: 'Ceviche, Crispy chicken bao, Chicken bulgogi bowl, Mille feuille', domain: 'bastianhospitality.com' },
+    { name: '7 Hill', area: 'Juhu', category: 'Restaurant', dishes: 'Chilli chicken, Chinese chicken, Locha naan, Paneer malai kebab' },
+    { name: 'Toto’s', area: 'Bandra West', category: 'Bar', dishes: 'Chilli cheese toast, Kheema pav, Chicken lollipops, Peanut masala' },
+    { name: 'Mia Kebab', area: 'Khar West', category: 'Street Food', dishes: 'Chicken Changezi tandoori, Zaatar naan, Mutton seekh kebabs' },
+    { name: 'Stables', area: 'Andheri East', category: 'Bar', dishes: 'Wild mushroom risotto, Whiskey sour, Chicken sliders, Tiramisu' },
+    { name: 'Dough & Joe', notes: 'Pizza', area: 'Bandra West', category: 'Cafe', dishes: 'Thecha prawns pizza, Bombay keema pizza, Vietnamese coffee' },
+    { name: 'Boojie', area: 'Bandra West', category: 'Cafe', dishes: 'Croissants, Hash brown, Greek salad, Mushroom bruschetta' },
+    { name: 'Punchline', area: 'Bandra West', category: 'Bar', dishes: 'Ghee-nius cocktail, Pickled packs, Crispy arbi & tender coconut' },
+    { name: 'Bastian', area: 'Dadar', category: 'Restaurant', dishes: 'Ceviche, Crispy chicken bao, Chicken bulgogi bowl, Mille feuille' },
     { name: 'Vaga Maga', notes: 'Ramen', notesAppend: 'Unverified — couldn’t confirm the exact venue, double-check on Maps.' },
-    { name: 'Gokul', area: 'Colaba', category: 'Bar', dishes: 'Chicken biryani, Chicken kathi roll, Fried surmai fish', logoUrl: 'https://b.zmtcdn.com/data/pictures/4/34424/62042cf5b295e4e49b0654d89112be78.jpg' },
-    { name: 'Road House Blues', area: 'Andheri West', category: 'Bar', dishes: 'Keema variants, Mojito, Bluez special cocktail', logoUrl: 'https://b.zmtcdn.com/data/pictures/5/43845/c4d72685a7dfc6a868d6ab9f855ac154.jpg' },
-    { name: 'Everhome Cafe', category: 'Cafe', area: 'Bandra West', dishes: 'House rustic bread, Smoked cinnamon cappuccino', logoUrl: 'https://b.zmtcdn.com/data/pictures/chains/4/22676184/a1ff0429507c33ec74b949d259bc84f5.jpg' },
-    { name: 'Araku', area: 'Colaba', category: 'Cafe', dishes: 'Avocado toast, Scotch eggs, Specialty coffee blends', domain: 'arakucoffee.in' },
-    { name: 'Kuuraku', area: 'Bandra West', category: 'Restaurant', dishes: 'Yakitori (chicken, bonjiri), Tomi takikomi gohan, Ebi tempura', domain: 'kuuraku.in' },
-    { name: 'Bang Bang Noodle', area: 'Goregaon West', category: 'Restaurant', dishes: 'Ma la dry noodles, Chongqing wan za mian, Chilli oil soft serve', logoUrl: 'https://b.zmtcdn.com/data/pictures/1/22045521/8121d0b147db8a1138b750cf182fe4a9.jpg' },
-    { name: 'Rumbaba', area: 'Andheri', category: 'Cafe', logoUrl: 'https://b.zmtcdn.com/data/pictures/1/22714391/a16216cd28f5b93813b4383421a85766.png' },
-    { name: 'Sagar Chinese', area: 'Juhu', category: 'Street Food', dishes: 'Manchow soup, Chicken crispy, Triple rice, Burnt garlic rice', logoUrl: 'https://b.zmtcdn.com/data/pictures/0/46510/3d4698bcf8e84ce5735698091d1c08e8.jpg' },
-    { name: 'Onrique', area: 'Bandra West', category: 'Restaurant', dishes: 'Wild mushroom & onion pizza, Falafel wraps, Vegetarian donbu', logoUrl: 'https://b.zmtcdn.com/data/pictures/2/21514532/5fbe8666b1622175c8ecd96f7767c1e5.jpg' },
-    { name: 'Oh Pedro', area: 'Bandra Kurla Complex', category: 'Restaurant', dishes: 'Ceviche, Burrata, Prawn bel-chow with sourdough bao, Vasco sour', domain: 'opedromumbai.com' },
+    { name: 'Gokul', area: 'Colaba', category: 'Bar', dishes: 'Chicken biryani, Chicken kathi roll, Fried surmai fish' },
+    { name: 'Road House Blues', area: 'Andheri West', category: 'Bar', dishes: 'Keema variants, Mojito, Bluez special cocktail' },
+    { name: 'Everhome Cafe', category: 'Cafe', area: 'Bandra West', dishes: 'House rustic bread, Smoked cinnamon cappuccino' },
+    { name: 'Araku', area: 'Colaba', category: 'Cafe', dishes: 'Avocado toast, Scotch eggs, Specialty coffee blends' },
+    { name: 'Kuuraku', area: 'Bandra West', category: 'Restaurant', dishes: 'Yakitori (chicken, bonjiri), Tomi takikomi gohan, Ebi tempura' },
+    { name: 'Bang Bang Noodle', area: 'Goregaon West', category: 'Restaurant', dishes: 'Ma la dry noodles, Chongqing wan za mian, Chilli oil soft serve' },
+    { name: 'Rumbaba', area: 'Andheri', category: 'Cafe' },
+    { name: 'Sagar Chinese', area: 'Juhu', category: 'Street Food', dishes: 'Manchow soup, Chicken crispy, Triple rice, Burnt garlic rice' },
+    { name: 'Onrique', area: 'Bandra West', category: 'Restaurant', dishes: 'Wild mushroom & onion pizza, Falafel wraps, Vegetarian donbu' },
+    { name: 'Oh Pedro', area: 'Bandra Kurla Complex', category: 'Restaurant', dishes: 'Ceviche, Burrata, Prawn bel-chow with sourdough bao, Vasco sour' },
     { name: 'Promenade', notesAppend: 'Unverified — couldn’t confirm the exact venue, double-check on Maps.' },
     { name: 'Cyclist', category: 'Cafe', notesAppend: 'Unverified — couldn’t confirm the exact venue, double-check on Maps.' },
-    { name: 'Gracias Granny', area: 'Santacruz West', category: 'Restaurant', dishes: 'Churros, Tacos, Nachos, Burritos', domain: 'graciasgranny.com' },
-    { name: 'Maji Sagar', area: 'Tardeo', category: 'Restaurant', dishes: 'Pav bhaji, Rabdi falooda, Spring dosa, Masala pav', logoUrl: 'https://b.zmtcdn.com/data/pictures/8/35798/aba2ab631c5a65005578742b947a4e2c.jpg' },
-    { name: 'Pass the Salt', area: 'Fort', category: 'Restaurant', dishes: 'Chicago deep-dish pizza, "Pass The Salt, Please" gelato', domain: 'passthesalt.in' },
-    { name: 'Bombay Daak', area: 'Bandra West', category: 'Bar', dishes: 'Shikaar ka achaar, Bombil fry, Pork & smoke', logoUrl: 'https://b.zmtcdn.com/data/pictures/chains/5/21346125/1cff3c12fdae2f7a07de1bc11d501932.jpg' },
-    { name: 'Torii', area: 'Khar', category: 'Restaurant', dishes: 'Crispy truffle sushi rolls, Chicken yakitori, Charred broccoli', domain: 'toriirestaurant.com' },
-    { name: 'Step Cafe', category: 'Cafe', area: 'Bandra West', dishes: 'Hot chocolate, Sea salt coffee', domain: '109stepscafe.com' },
-    { name: 'Bandra Born', area: 'Bandra West', category: 'Restaurant', dishes: 'Chilli cheese toast, Potato & corn croquettes, Caramel custard', logoUrl: 'https://b.zmtcdn.com/data/pictures/3/21052783/416d281e3a5b8644f213ee9772867902.jpg' },
-    { name: 'Pot Pot', area: 'Lower Parel', category: 'Restaurant', dishes: 'Tandoori baby chicken, Paan kulfi', logoUrl: 'https://b.zmtcdn.com/data/pictures/9/22632149/1c2196df8e7d489a94120087ae01cdc9.jpg' },
-    { name: 'Steam Room', area: 'Bandra West', category: 'Restaurant', dishes: 'Ma la chilli wontons, Jhol momos, Truffle mushroom xiao long bao, Dan dan ramen', logoUrl: 'https://b.zmtcdn.com/data/pictures/chains/1/22491881/921a9d231148b74ec4cd319fdb9cb514.jpeg' }
+    { name: 'Gracias Granny', area: 'Santacruz West', category: 'Restaurant', dishes: 'Churros, Tacos, Nachos, Burritos' },
+    { name: 'Maji Sagar', area: 'Tardeo', category: 'Restaurant', dishes: 'Pav bhaji, Rabdi falooda, Spring dosa, Masala pav' },
+    { name: 'Pass the Salt', area: 'Fort', category: 'Restaurant', dishes: 'Chicago deep-dish pizza, "Pass The Salt, Please" gelato' },
+    { name: 'Bombay Daak', area: 'Bandra West', category: 'Bar', dishes: 'Shikaar ka achaar, Bombil fry, Pork & smoke' },
+    { name: 'Torii', area: 'Khar', category: 'Restaurant', dishes: 'Crispy truffle sushi rolls, Chicken yakitori, Charred broccoli' },
+    { name: 'Step Cafe', category: 'Cafe', area: 'Bandra West', dishes: 'Hot chocolate, Sea salt coffee' },
+    { name: 'Bandra Born', area: 'Bandra West', category: 'Restaurant', dishes: 'Chilli cheese toast, Potato & corn croquettes, Caramel custard' },
+    { name: 'Pot Pot', area: 'Lower Parel', category: 'Restaurant', dishes: 'Tandoori baby chicken, Paan kulfi' },
+    { name: 'Steam Room', area: 'Bandra West', category: 'Restaurant', dishes: 'Ma la chilli wontons, Jhol momos, Truffle mushroom xiao long bao, Dan dan ramen' }
   ];
 
   function seedNotes(p) {
@@ -896,8 +860,6 @@
         area: p.area || '',
         category: p.category || 'Restaurant',
         link: '',
-        domain: p.domain || '',
-        logoUrl: p.logoUrl || '',
         notes: seedNotes(p),
         dishes: p.dishes || '',
         status: 'to-visit',
@@ -919,8 +881,6 @@
       if (seed.area && !place.area) { place.area = seed.area; changed = true; }
       if (seed.category && place.category !== seed.category) { place.category = seed.category; changed = true; }
       if (seed.dishes && !place.dishes) { place.dishes = seed.dishes; changed = true; }
-      if (seed.domain && !place.domain) { place.domain = seed.domain; changed = true; }
-      if (seed.logoUrl && !place.logoUrl) { place.logoUrl = seed.logoUrl; changed = true; }
       if (seed.notesAppend && place.notes.indexOf(seed.notesAppend) === -1) {
         place.notes = place.notes ? place.notes + ' ' + seed.notesAppend : seed.notesAppend;
         changed = true;
@@ -958,7 +918,6 @@
   var fArea = document.getElementById('fArea');
   var fCategory = document.getElementById('fCategory');
   var fLink = document.getElementById('fLink');
-  var fDomain = document.getElementById('fDomain');
   var fNotes = document.getElementById('fNotes');
   var fDishes = document.getElementById('fDishes');
 
@@ -979,7 +938,6 @@
     fArea.value = place.area || '';
     fCategory.value = place.category;
     fLink.value = place.link || '';
-    fDomain.value = place.domain || '';
     fNotes.value = place.notes || '';
     fDishes.value = place.dishes || '';
     dialogTitle.textContent = 'Edit place';
@@ -1006,7 +964,6 @@
       area: fArea.value.trim(),
       category: fCategory.value,
       link: fLink.value.trim(),
-      domain: normalizeDomain(fDomain.value.trim()),
       notes: fNotes.value.trim(),
       dishes: fDishes.value.trim()
     };
@@ -1032,11 +989,6 @@
     el.addEventListener('input', render);
     el.addEventListener('change', render);
   });
-
-  function normalizeDomain(s) {
-    if (!s) return '';
-    return s.replace(/^https?:\/\//i, '').replace(/^www\./i, '').split('/')[0];
-  }
 
   function escapeHtml(s) {
     var div = document.createElement('div');
@@ -1069,43 +1021,17 @@
     return 'https://maps.google.com/maps?q=' + mapQuery(place) + '&z=15&output=embed';
   }
 
-  var CATEGORY_EMOJI = {
-    'Cafe': '☕',
-    'Restaurant': '🍽️',
-    'Bakery': '🥐',
-    'Bar': '🍸',
-    'Street Food': '🌮',
-    'Sweets': '🍬'
-  };
-
-  function avatarMarkup(place, catAttr, emoji) {
-    var inner = '<span class="avatar-emoji">' + emoji + '</span>';
-    if (place.logoUrl) {
-      inner += '<img class="avatar-logo" src="' + escapeHtml(place.logoUrl) + '" alt="" loading="lazy" ' +
-        'onerror="this.style.display=`none`;">';
-    } else if (place.domain) {
-      var d = escapeHtml(place.domain);
-      inner += '<img class="avatar-logo" src="https://logo.clearbit.com/' + d + '?size=128" ' +
-        'data-fallback="https://www.google.com/s2/favicons?sz=64&domain=' + d + '" alt="" loading="lazy" ' +
-        'onerror="var f=this.dataset.fallback;if(f){this.dataset.fallback=``;this.src=f;}else{this.style.display=`none`;}">';
-    }
-    return '<span class="avatar" data-category="' + catAttr + '">' + inner + '</span>';
-  }
-
   function cardMarkup(place) {
     var isVisited = place.status === 'visited';
     var metaParts = [];
     if (place.area) metaParts.push(escapeHtml(place.area));
     metaParts.push(escapeHtml(place.category));
     var meta = metaParts.join(' | ');
-    var catAttr = escapeHtml(place.category);
-    var emoji = CATEGORY_EMOJI[place.category] || '🍴';
 
     return (
       '<article class="card' + (isVisited ? ' visited' : '') + '" data-id="' + place.id + '">' +
         '<div class="card-top">' +
           '<div class="card-id">' +
-            avatarMarkup(place, catAttr, emoji) +
             '<div>' +
               '<h3>' + escapeHtml(place.name) + '</h3>' +
               '<div class="meta">' + meta + '</div>' +
