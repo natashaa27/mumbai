@@ -1015,7 +1015,7 @@
         (place.dishes ? '<div class="dishes"><b>Try</b>' + escapeHtml(place.dishes) + '</div>' : '') +
         (isVisited ? starsMarkup(place) : '') +
         '<div class="map-embed">' +
-          '<iframe src="' + mapEmbedUrl(place) + '" loading="lazy" title="Map for ' + escapeHtml(place.name) + '" tabindex="-1"></iframe>' +
+          '<iframe data-src="' + mapEmbedUrl(place) + '" loading="lazy" title="Map for ' + escapeHtml(place.name) + '" tabindex="-1"></iframe>' +
           '<a class="map-overlay" href="' + escapeHtml(mapOpenUrl(place)) + '" target="_blank" rel="noopener noreferrer" aria-label="Open ' + escapeHtml(place.name) + ' on Google Maps"></a>' +
           '<span class="map-hint">↗ Maps</span>' +
         '</div>' +
@@ -1094,7 +1094,26 @@
       grid.hidden = false;
       empty.hidden = true;
       grid.innerHTML = filtered.map(cardMarkup).join('');
+      loadVisibleMaps();
     }
+  }
+
+  var mapObserver = 'IntersectionObserver' in window ? new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+      var iframe = entry.target;
+      iframe.src = iframe.dataset.src;
+      mapObserver.unobserve(iframe);
+    });
+  }, { rootMargin: '400px 0px' }) : null;
+
+  function loadVisibleMaps() {
+    var iframes = grid.querySelectorAll('.map-embed iframe[data-src]');
+    if (!mapObserver) {
+      iframes.forEach(function (iframe) { iframe.src = iframe.dataset.src; });
+      return;
+    }
+    iframes.forEach(function (iframe) { mapObserver.observe(iframe); });
   }
 
   grid.addEventListener('click', function (e) {
