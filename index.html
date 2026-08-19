@@ -307,6 +307,20 @@
     white-space: pre-wrap;
   }
 
+  .card .dishes {
+    font-size: 12.5px;
+    color: var(--brass-strong);
+  }
+
+  .card .dishes b {
+    text-transform: uppercase;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    color: var(--sage);
+    font-weight: 600;
+    margin-right: 5px;
+  }
+
   .card-bottom {
     display: flex;
     justify-content: space-between;
@@ -400,6 +414,16 @@
     opacity: 0.75;
   }
   .delete-btn:hover { opacity: 1; }
+
+  .edit-btn {
+    background: none;
+    color: var(--sage);
+    font-size: 12px;
+    padding: 2px;
+    border-bottom: 1px dotted var(--sage);
+    font: inherit;
+  }
+  .edit-btn:hover { color: var(--brass-strong); border-color: var(--brass-strong); }
 
   /* ---------- empty state ---------- */
   .empty {
@@ -546,6 +570,9 @@
     <option value="Street Food">Street Food</option>
     <option value="Sweets">Sweets</option>
   </select>
+  <select id="filterArea" class="chip" aria-label="Filter by area">
+    <option value="all">Any area</option>
+  </select>
   <select id="sortBy" class="chip" aria-label="Sort">
     <option value="added">Recently added</option>
     <option value="name">Name A–Z</option>
@@ -567,7 +594,7 @@
 
 <dialog id="dialog">
   <div class="dialog-head">
-    <h2 class="serif">Add a place</h2>
+    <h2 class="serif" id="dialogTitle">Add a place</h2>
     <button class="dialog-close" id="closeDialog" aria-label="Close">×</button>
   </div>
   <form class="place-form" id="placeForm">
@@ -621,7 +648,11 @@
       <label for="fNotes">Notes</label>
       <textarea id="fNotes" placeholder="What you've heard, what to order…"></textarea>
     </div>
-    <button type="submit" class="submit-btn">Add to list</button>
+    <div class="field">
+      <label for="fDishes">Dishes to try (optional)</label>
+      <input type="text" id="fDishes" placeholder="e.g. Burnt garlic ramen, Truffle fries">
+    </div>
+    <button type="submit" class="submit-btn" id="submitBtn">Add to list</button>
   </form>
 </dialog>
 
@@ -687,6 +718,7 @@
         category: p.category || 'Restaurant',
         link: '',
         notes: p.notes || '',
+        dishes: p.dishes || '',
         status: 'to-visit',
         rating: 0,
         addedAt: base - i
@@ -706,17 +738,47 @@
   var search = document.getElementById('search');
   var filterStatus = document.getElementById('filterStatus');
   var filterCategory = document.getElementById('filterCategory');
+  var filterArea = document.getElementById('filterArea');
   var sortBy = document.getElementById('sortBy');
   var dialog = document.getElementById('dialog');
   var openAdd = document.getElementById('openAdd');
   var closeDialog = document.getElementById('closeDialog');
   var placeForm = document.getElementById('placeForm');
+  var dialogTitle = document.getElementById('dialogTitle');
+  var submitBtn = document.getElementById('submitBtn');
+  var fName = document.getElementById('fName');
+  var fArea = document.getElementById('fArea');
+  var fCategory = document.getElementById('fCategory');
+  var fLink = document.getElementById('fLink');
+  var fNotes = document.getElementById('fNotes');
+  var fDishes = document.getElementById('fDishes');
 
-  openAdd.addEventListener('click', function () {
+  var editingId = null;
+
+  function openAddDialog() {
+    editingId = null;
     placeForm.reset();
+    dialogTitle.textContent = 'Add a place';
+    submitBtn.textContent = 'Add to list';
     dialog.showModal();
-    document.getElementById('fName').focus();
-  });
+    fName.focus();
+  }
+
+  function openEditDialog(place) {
+    editingId = place.id;
+    fName.value = place.name;
+    fArea.value = place.area || '';
+    fCategory.value = place.category;
+    fLink.value = place.link || '';
+    fNotes.value = place.notes || '';
+    fDishes.value = place.dishes || '';
+    dialogTitle.textContent = 'Edit place';
+    submitBtn.textContent = 'Save changes';
+    dialog.showModal();
+    fName.focus();
+  }
+
+  openAdd.addEventListener('click', openAddDialog);
   closeDialog.addEventListener('click', function () { dialog.close(); });
   dialog.addEventListener('click', function (e) {
     var r = dialog.getBoundingClientRect();
@@ -726,25 +788,36 @@
 
   placeForm.addEventListener('submit', function (e) {
     e.preventDefault();
-    var name = document.getElementById('fName').value.trim();
+    var name = fName.value.trim();
     if (!name) return;
-    places.unshift({
-      id: Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
+
+    var fields = {
       name: name,
-      area: document.getElementById('fArea').value.trim(),
-      category: document.getElementById('fCategory').value,
-      link: document.getElementById('fLink').value.trim(),
-      notes: document.getElementById('fNotes').value.trim(),
-      status: 'to-visit',
-      rating: 0,
-      addedAt: Date.now()
-    });
+      area: fArea.value.trim(),
+      category: fCategory.value,
+      link: fLink.value.trim(),
+      notes: fNotes.value.trim(),
+      dishes: fDishes.value.trim()
+    };
+
+    if (editingId) {
+      var existing = places.find(function (p) { return p.id === editingId; });
+      if (existing) Object.assign(existing, fields);
+    } else {
+      places.unshift(Object.assign({
+        id: Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
+        status: 'to-visit',
+        rating: 0,
+        addedAt: Date.now()
+      }, fields));
+    }
+
     save(places);
     dialog.close();
     render();
   });
 
-  [search, filterStatus, filterCategory, sortBy].forEach(function (el) {
+  [search, filterStatus, filterCategory, filterArea, sortBy].forEach(function (el) {
     el.addEventListener('input', render);
     el.addEventListener('change', render);
   });
@@ -796,6 +869,7 @@
           '<span class="tab">' + escapeHtml(place.category) + '</span>' +
         '</div>' +
         (place.notes ? '<div class="notes">' + escapeHtml(place.notes) + '</div>' : '') +
+        (place.dishes ? '<div class="dishes"><b>Try</b>' + escapeHtml(place.dishes) + '</div>' : '') +
         (isVisited ? starsMarkup(place) : '') +
         '<div class="map-embed" data-map-embed="' + place.id + '" hidden></div>' +
         '<div class="card-bottom">' +
@@ -805,6 +879,7 @@
           '<div class="row-actions">' +
             '<button type="button" class="icon-link" data-map-toggle="' + place.id + '">map</button>' +
             '<a class="icon-link" href="' + escapeHtml(mapOpenUrl(place)) + '" target="_blank" rel="noopener noreferrer">open</a>' +
+            '<button type="button" class="edit-btn" data-edit="' + place.id + '">edit</button>' +
             '<button type="button" class="delete-btn" data-delete="' + place.id + '" aria-label="Remove ' + escapeHtml(place.name) + '">Remove</button>' +
           '</div>' +
         '</div>' +
@@ -812,17 +887,43 @@
     );
   }
 
+  function refreshAreaOptions() {
+    var areas = Array.from(new Set(
+      places.map(function (p) { return (p.area || '').trim(); }).filter(Boolean)
+    )).sort(function (a, b) { return a.localeCompare(b); });
+
+    var current = filterArea.value;
+    var html = '<option value="all">Any area</option>';
+    areas.forEach(function (a) {
+      html += '<option value="' + escapeHtml(a) + '">' + escapeHtml(a) + '</option>';
+    });
+    var hasUnset = places.some(function (p) { return !(p.area || '').trim(); });
+    if (hasUnset) html += '<option value="__unset">Area unknown</option>';
+    filterArea.innerHTML = html;
+    if (Array.from(filterArea.options).some(function (o) { return o.value === current; })) {
+      filterArea.value = current;
+    }
+  }
+
   function render() {
+    refreshAreaOptions();
+
     var q = search.value.trim().toLowerCase();
     var st = filterStatus.value;
     var cat = filterCategory.value;
+    var ar = filterArea.value;
     var sort = sortBy.value;
 
     var filtered = places.filter(function (p) {
       if (st !== 'all' && p.status !== st) return false;
       if (cat !== 'all' && p.category !== cat) return false;
+      if (ar !== 'all') {
+        var pArea = (p.area || '').trim();
+        if (ar === '__unset') { if (pArea) return false; }
+        else if (pArea !== ar) return false;
+      }
       if (q) {
-        var hay = (p.name + ' ' + p.area + ' ' + p.notes).toLowerCase();
+        var hay = (p.name + ' ' + p.area + ' ' + p.notes + ' ' + (p.dishes || '')).toLowerCase();
         if (hay.indexOf(q) === -1) return false;
       }
       return true;
@@ -857,8 +958,13 @@
     var deleteId = e.target.closest('[data-delete]');
     var starBtn = e.target.closest('[data-star]');
     var mapToggle = e.target.closest('[data-map-toggle]');
+    var editId = e.target.closest('[data-edit]');
 
-    if (mapToggle) {
+    if (editId) {
+      var eid = editId.getAttribute('data-edit');
+      var editPlace = places.find(function (x) { return x.id === eid; });
+      if (editPlace) openEditDialog(editPlace);
+    } else if (mapToggle) {
       var mid = mapToggle.getAttribute('data-map-toggle');
       var place2 = places.find(function (x) { return x.id === mid; });
       var embed = grid.querySelector('[data-map-embed="' + mid + '"]');
