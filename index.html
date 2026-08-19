@@ -1,0 +1,853 @@
+<title>Tiffin List</title>
+<style>
+  @font-face {
+    font-family: 'system-serif-fallback';
+    src: local('Georgia');
+  }
+
+  :root {
+    --ink: #1c2621;
+    --ink-soft: #3c463f;
+    --paper: #eef0e4;
+    --paper-raised: #f8f9f1;
+    --paper-sunk: #e2e5d7;
+    --brass: #96692a;
+    --brass-strong: #7a5420;
+    --brass-tint: #e7d3ab;
+    --maroon: #7a2b28;
+    --maroon-tint: #f1dbd6;
+    --sage: #6f7a6a;
+    --line: #cdd0bd;
+    --shadow: 0 1px 0 rgba(28, 38, 33, 0.06);
+    --radius: 3px;
+    color-scheme: light;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ink: #eef0e4;
+      --ink-soft: #c7cdbf;
+      --paper: #131a15;
+      --paper-raised: #1b241c;
+      --paper-sunk: #0e130f;
+      --brass: #d3a355;
+      --brass-strong: #e8bd6f;
+      --brass-tint: #3a2f18;
+      --maroon: #d98c85;
+      --maroon-tint: #35201d;
+      --sage: #9aa693;
+      --line: #333e34;
+      --shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
+      color-scheme: dark;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --ink: #eef0e4;
+    --ink-soft: #c7cdbf;
+    --paper: #131a15;
+    --paper-raised: #1b241c;
+    --paper-sunk: #0e130f;
+    --brass: #d3a355;
+    --brass-strong: #e8bd6f;
+    --brass-tint: #3a2f18;
+    --maroon: #d98c85;
+    --maroon-tint: #35201d;
+    --sage: #9aa693;
+    --line: #333e34;
+    --shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
+    color-scheme: dark;
+  }
+
+  :root[data-theme="light"] {
+    --ink: #1c2621;
+    --ink-soft: #3c463f;
+    --paper: #eef0e4;
+    --paper-raised: #f8f9f1;
+    --paper-sunk: #e2e5d7;
+    --brass: #96692a;
+    --brass-strong: #7a5420;
+    --brass-tint: #e7d3ab;
+    --maroon: #7a2b28;
+    --maroon-tint: #f1dbd6;
+    --sage: #6f7a6a;
+    --line: #cdd0bd;
+    --shadow: 0 1px 0 rgba(28, 38, 33, 0.06);
+    color-scheme: light;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--paper);
+    color: var(--ink);
+  }
+
+  body {
+    font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .serif {
+    font-family: Georgia, "Iowan Old Style", "Palatino Linotype", "Times New Roman", serif;
+  }
+
+  .mono {
+    font-family: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+    font-variant-numeric: tabular-nums;
+  }
+
+  a { color: inherit; }
+
+  /* ---------- checkerboard motif ---------- */
+  .checker {
+    height: 10px;
+    background-image:
+      linear-gradient(45deg, var(--brass) 25%, transparent 25%, transparent 75%, var(--brass) 75%),
+      linear-gradient(45deg, var(--brass) 25%, transparent 25%, transparent 75%, var(--brass) 75%);
+    background-size: 10px 10px;
+    background-position: 0 0, 5px 5px;
+    background-color: var(--paper-sunk);
+    opacity: 0.55;
+  }
+
+  /* ---------- header ---------- */
+  header.board {
+    background: var(--paper-raised);
+    border-bottom: 3px solid var(--ink);
+    padding: 28px 20px 0;
+  }
+
+  .board-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    padding-bottom: 18px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .wordmark {
+    font-weight: 700;
+    font-size: clamp(28px, 5vw, 38px);
+    letter-spacing: -0.01em;
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  .wordmark span {
+    color: var(--brass-strong);
+  }
+
+  .tagline {
+    margin: 4px 0 0;
+    color: var(--ink-soft);
+    font-size: 13.5px;
+    letter-spacing: 0.02em;
+  }
+
+  .stats {
+    display: flex;
+    gap: 22px;
+    font-family: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+  }
+
+  .stat {
+    text-align: right;
+  }
+
+  .stat .n {
+    display: block;
+    font-size: 22px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .stat .l {
+    display: block;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--sage);
+    margin-top: 1px;
+  }
+
+  /* ---------- controls ---------- */
+  .controls {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 18px 20px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .search-wrap {
+    flex: 1 1 200px;
+    position: relative;
+  }
+
+  input[type="search"], input[type="text"], input[type="url"], select, textarea {
+    font: inherit;
+    color: var(--ink);
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 9px 12px;
+  }
+
+  input[type="search"] { width: 100%; }
+
+  select.chip {
+    appearance: none;
+    -webkit-appearance: none;
+    padding-right: 28px;
+    background-image: linear-gradient(45deg, transparent 50%, var(--sage) 50%), linear-gradient(135deg, var(--sage) 50%, transparent 50%);
+    background-position: calc(100% - 14px) 55%, calc(100% - 9px) 55%;
+    background-size: 5px 5px, 5px 5px;
+    background-repeat: no-repeat;
+    cursor: pointer;
+  }
+
+  input:focus-visible, select:focus-visible, textarea:focus-visible, button:focus-visible {
+    outline: 2px solid var(--brass);
+    outline-offset: 1px;
+  }
+
+  button {
+    font: inherit;
+    cursor: pointer;
+    border: none;
+  }
+
+  .btn-add {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 9px 16px;
+    border-radius: var(--radius);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .btn-add:hover { background: var(--brass-strong); }
+
+  /* ---------- main list ---------- */
+  main {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 4px 20px 60px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 14px;
+    margin-top: 10px;
+  }
+
+  .card {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 14px 14px 12px;
+    position: relative;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .card.visited { border-color: var(--sage); }
+
+  .card-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  .card h3 {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.25;
+    text-wrap: balance;
+  }
+
+  .card .meta {
+    font-size: 12px;
+    color: var(--sage);
+    margin-top: 2px;
+    letter-spacing: 0.01em;
+  }
+
+  .tab {
+    flex: none;
+    font-size: 9.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    font-weight: 600;
+    padding: 3px 7px;
+    border-radius: 2px;
+    background: var(--brass-tint);
+    color: var(--brass-strong);
+    white-space: nowrap;
+  }
+
+  .card .notes {
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    white-space: pre-wrap;
+  }
+
+  .card-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    padding-top: 6px;
+    gap: 8px;
+  }
+
+  .status-btn {
+    font-size: 12px;
+    font-weight: 600;
+    background: none;
+    padding: 5px 9px 5px 6px;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    border: 1px solid var(--line);
+  }
+
+  .status-btn .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--brass);
+  }
+
+  .status-btn.is-visited { color: var(--sage); border-color: var(--sage); }
+  .status-btn.is-visited .dot { background: var(--sage); }
+
+  .stars {
+    display: inline-flex;
+    gap: 1px;
+  }
+
+  .stars button {
+    background: none;
+    font-size: 15px;
+    line-height: 1;
+    padding: 2px;
+    color: var(--line);
+  }
+
+  .stars button.on { color: var(--brass); }
+
+  .row-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .icon-link {
+    color: var(--sage);
+    text-decoration: none;
+    font-size: 12px;
+    border-bottom: 1px dotted var(--sage);
+    background: none;
+    padding: 0;
+    font: inherit;
+  }
+  .icon-link:hover { color: var(--brass-strong); border-color: var(--brass-strong); }
+
+  .map-embed {
+    margin-top: 2px;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: var(--paper-sunk);
+  }
+
+  .map-embed iframe {
+    display: block;
+    width: 100%;
+    height: 160px;
+    border: 0;
+    filter: grayscale(0.15) contrast(1.02);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .map-embed iframe { filter: grayscale(0.3) invert(0.92) contrast(0.9) hue-rotate(180deg); }
+  }
+  :root[data-theme="dark"] .map-embed iframe { filter: grayscale(0.3) invert(0.92) contrast(0.9) hue-rotate(180deg); }
+  :root[data-theme="light"] .map-embed iframe { filter: grayscale(0.15) contrast(1.02); }
+
+  .delete-btn {
+    background: none;
+    color: var(--maroon);
+    font-size: 12px;
+    padding: 2px;
+    opacity: 0.75;
+  }
+  .delete-btn:hover { opacity: 1; }
+
+  /* ---------- empty state ---------- */
+  .empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--ink-soft);
+  }
+
+  .empty .checker-block {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 18px;
+    background-image:
+      linear-gradient(45deg, var(--line) 25%, transparent 25%, transparent 75%, var(--line) 75%),
+      linear-gradient(45deg, var(--line) 25%, transparent 25%, transparent 75%, var(--line) 75%);
+    background-size: 16px 16px;
+    background-position: 0 0, 8px 8px;
+    border-radius: var(--radius);
+    opacity: 0.6;
+  }
+
+  .empty p { max-width: 320px; margin: 0 auto; font-size: 14px; }
+
+  /* ---------- dialog ---------- */
+  dialog {
+    border: none;
+    border-radius: 4px;
+    padding: 0;
+    background: var(--paper-raised);
+    color: var(--ink);
+    max-width: 440px;
+    width: calc(100vw - 40px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+  }
+
+  dialog::backdrop {
+    background: rgba(20, 24, 20, 0.5);
+  }
+
+  .dialog-head {
+    padding: 18px 20px 14px;
+    border-bottom: 3px solid var(--ink);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .dialog-head h2 {
+    margin: 0;
+    font-size: 19px;
+    font-weight: 700;
+  }
+
+  .dialog-close {
+    background: none;
+    color: var(--sage);
+    font-size: 20px;
+    line-height: 1;
+    padding: 2px 4px;
+  }
+
+  form.place-form {
+    padding: 16px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .field label {
+    display: block;
+    font-size: 11.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--sage);
+    margin-bottom: 4px;
+    font-weight: 600;
+  }
+
+  .field input, .field select, .field textarea {
+    width: 100%;
+  }
+
+  .field-row {
+    display: flex;
+    gap: 10px;
+  }
+  .field-row .field { flex: 1; }
+
+  textarea { resize: vertical; min-height: 54px; font-family: inherit; }
+
+  .submit-btn {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 10px;
+    border-radius: var(--radius);
+    font-weight: 600;
+    margin-top: 4px;
+  }
+  .submit-btn:hover { background: var(--brass-strong); }
+
+  footer {
+    text-align: center;
+    font-size: 11.5px;
+    color: var(--sage);
+    padding: 10px 20px 30px;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .card { transition: border-color 0.15s ease; }
+    .status-btn, .submit-btn, .btn-add, .delete-btn { transition: background 0.15s ease, opacity 0.15s ease; }
+  }
+</style>
+
+<header class="board">
+  <div class="board-inner">
+    <div>
+      <h1 class="wordmark serif">Tiffin<span>·</span>List</h1>
+      <p class="tagline">your rounds of Mumbai, one address at a time</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><span class="n" id="statTotal">0</span><span class="l">on the list</span></div>
+      <div class="stat"><span class="n" id="statTodo">0</span><span class="l">to visit</span></div>
+      <div class="stat"><span class="n" id="statDone">0</span><span class="l">visited</span></div>
+    </div>
+  </div>
+  <div class="checker"></div>
+</header>
+
+<div class="controls">
+  <div class="search-wrap">
+    <input type="search" id="search" placeholder="Search by name, area, or note…" aria-label="Search places">
+  </div>
+  <select id="filterStatus" class="chip" aria-label="Filter by status">
+    <option value="all">All</option>
+    <option value="to-visit">To visit</option>
+    <option value="visited">Visited</option>
+  </select>
+  <select id="filterCategory" class="chip" aria-label="Filter by category">
+    <option value="all">Any type</option>
+    <option value="Cafe">Cafe</option>
+    <option value="Restaurant">Restaurant</option>
+    <option value="Bakery">Bakery</option>
+    <option value="Bar">Bar</option>
+    <option value="Street Food">Street Food</option>
+    <option value="Sweets">Sweets</option>
+  </select>
+  <select id="sortBy" class="chip" aria-label="Sort">
+    <option value="added">Recently added</option>
+    <option value="name">Name A–Z</option>
+    <option value="area">Area</option>
+    <option value="rating">Top rated</option>
+  </select>
+  <button class="btn-add" id="openAdd">+ Add place</button>
+</div>
+
+<main>
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty" hidden>
+    <div class="checker-block"></div>
+    <p id="emptyText">Your list is empty. Add the first stop on your rounds — a cafe, an Irani joint, a favourite thali place.</p>
+  </div>
+</main>
+
+<footer>Saved locally in this browser only — nothing leaves your device.</footer>
+
+<dialog id="dialog">
+  <div class="dialog-head">
+    <h2 class="serif">Add a place</h2>
+    <button class="dialog-close" id="closeDialog" aria-label="Close">×</button>
+  </div>
+  <form class="place-form" id="placeForm">
+    <div class="field">
+      <label for="fName">Name</label>
+      <input type="text" id="fName" required placeholder="e.g. Kyani &amp; Co.">
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label for="fArea">Area</label>
+        <input type="text" id="fArea" list="areaList" placeholder="e.g. Fort">
+        <datalist id="areaList">
+          <option value="Colaba"></option>
+          <option value="Fort"></option>
+          <option value="Kala Ghoda"></option>
+          <option value="Byculla"></option>
+          <option value="Dadar"></option>
+          <option value="Matunga"></option>
+          <option value="Worli"></option>
+          <option value="Lower Parel"></option>
+          <option value="Bandra"></option>
+          <option value="Khar"></option>
+          <option value="Santacruz"></option>
+          <option value="Juhu"></option>
+          <option value="Andheri"></option>
+          <option value="Versova"></option>
+          <option value="Powai"></option>
+          <option value="Malad"></option>
+          <option value="Borivali"></option>
+          <option value="Thane"></option>
+          <option value="Navi Mumbai"></option>
+        </datalist>
+      </div>
+      <div class="field">
+        <label for="fCategory">Type</label>
+        <select id="fCategory">
+          <option>Cafe</option>
+          <option>Restaurant</option>
+          <option>Bakery</option>
+          <option>Bar</option>
+          <option>Street Food</option>
+          <option>Sweets</option>
+        </select>
+      </div>
+    </div>
+    <div class="field">
+      <label for="fLink">Google Maps link (optional — auto-generated if left blank)</label>
+      <input type="url" id="fLink" placeholder="https://maps.google.com/…">
+    </div>
+    <div class="field">
+      <label for="fNotes">Notes</label>
+      <textarea id="fNotes" placeholder="What you've heard, what to order…"></textarea>
+    </div>
+    <button type="submit" class="submit-btn">Add to list</button>
+  </form>
+</dialog>
+
+<script>
+(function () {
+  var STORAGE_KEY = 'tiffin-list-v1';
+
+  function load() {
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function save(places) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(places));
+  }
+
+  var places = load();
+
+  var grid = document.getElementById('grid');
+  var empty = document.getElementById('empty');
+  var emptyText = document.getElementById('emptyText');
+  var search = document.getElementById('search');
+  var filterStatus = document.getElementById('filterStatus');
+  var filterCategory = document.getElementById('filterCategory');
+  var sortBy = document.getElementById('sortBy');
+  var dialog = document.getElementById('dialog');
+  var openAdd = document.getElementById('openAdd');
+  var closeDialog = document.getElementById('closeDialog');
+  var placeForm = document.getElementById('placeForm');
+
+  openAdd.addEventListener('click', function () {
+    placeForm.reset();
+    dialog.showModal();
+    document.getElementById('fName').focus();
+  });
+  closeDialog.addEventListener('click', function () { dialog.close(); });
+  dialog.addEventListener('click', function (e) {
+    var r = dialog.getBoundingClientRect();
+    var inside = e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
+    if (!inside) dialog.close();
+  });
+
+  placeForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var name = document.getElementById('fName').value.trim();
+    if (!name) return;
+    places.unshift({
+      id: Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
+      name: name,
+      area: document.getElementById('fArea').value.trim(),
+      category: document.getElementById('fCategory').value,
+      link: document.getElementById('fLink').value.trim(),
+      notes: document.getElementById('fNotes').value.trim(),
+      status: 'to-visit',
+      rating: 0,
+      addedAt: Date.now()
+    });
+    save(places);
+    dialog.close();
+    render();
+  });
+
+  [search, filterStatus, filterCategory, sortBy].forEach(function (el) {
+    el.addEventListener('input', render);
+    el.addEventListener('change', render);
+  });
+
+  function escapeHtml(s) {
+    var div = document.createElement('div');
+    div.textContent = s;
+    return div.innerHTML;
+  }
+
+  function starsMarkup(place) {
+    var out = '<span class="stars" data-id="' + place.id + '">';
+    for (var i = 1; i <= 5; i++) {
+      out += '<button type="button" class="' + (i <= place.rating ? 'on' : '') + '" data-star="' + i + '" aria-label="Rate ' + i + '">★</button>';
+    }
+    out += '</span>';
+    return out;
+  }
+
+  function mapQuery(place) {
+    var parts = [place.name];
+    if (place.area) parts.push(place.area);
+    parts.push('Mumbai');
+    return encodeURIComponent(parts.join(', '));
+  }
+
+  function mapOpenUrl(place) {
+    if (place.link) return place.link;
+    return 'https://www.google.com/maps/search/?api=1&query=' + mapQuery(place);
+  }
+
+  function mapEmbedUrl(place) {
+    return 'https://maps.google.com/maps?q=' + mapQuery(place) + '&z=15&output=embed';
+  }
+
+  function cardMarkup(place) {
+    var isVisited = place.status === 'visited';
+    var metaParts = [];
+    if (place.area) metaParts.push(escapeHtml(place.area));
+    var meta = metaParts.join(' · ');
+
+    return (
+      '<article class="card' + (isVisited ? ' visited' : '') + '" data-id="' + place.id + '">' +
+        '<div class="card-top">' +
+          '<div>' +
+            '<h3>' + escapeHtml(place.name) + '</h3>' +
+            (meta ? '<div class="meta">' + meta + '</div>' : '') +
+          '</div>' +
+          '<span class="tab">' + escapeHtml(place.category) + '</span>' +
+        '</div>' +
+        (place.notes ? '<div class="notes">' + escapeHtml(place.notes) + '</div>' : '') +
+        (isVisited ? starsMarkup(place) : '') +
+        '<div class="map-embed" data-map-embed="' + place.id + '" hidden></div>' +
+        '<div class="card-bottom">' +
+          '<button type="button" class="status-btn' + (isVisited ? ' is-visited' : '') + '" data-toggle="' + place.id + '">' +
+            '<span class="dot"></span>' + (isVisited ? 'Visited' : 'To visit') +
+          '</button>' +
+          '<div class="row-actions">' +
+            '<button type="button" class="icon-link" data-map-toggle="' + place.id + '">map</button>' +
+            '<a class="icon-link" href="' + escapeHtml(mapOpenUrl(place)) + '" target="_blank" rel="noopener noreferrer">open</a>' +
+            '<button type="button" class="delete-btn" data-delete="' + place.id + '" aria-label="Remove ' + escapeHtml(place.name) + '">Remove</button>' +
+          '</div>' +
+        '</div>' +
+      '</article>'
+    );
+  }
+
+  function render() {
+    var q = search.value.trim().toLowerCase();
+    var st = filterStatus.value;
+    var cat = filterCategory.value;
+    var sort = sortBy.value;
+
+    var filtered = places.filter(function (p) {
+      if (st !== 'all' && p.status !== st) return false;
+      if (cat !== 'all' && p.category !== cat) return false;
+      if (q) {
+        var hay = (p.name + ' ' + p.area + ' ' + p.notes).toLowerCase();
+        if (hay.indexOf(q) === -1) return false;
+      }
+      return true;
+    });
+
+    filtered.sort(function (a, b) {
+      if (sort === 'name') return a.name.localeCompare(b.name);
+      if (sort === 'area') return (a.area || '').localeCompare(b.area || '');
+      if (sort === 'rating') return (b.rating || 0) - (a.rating || 0);
+      return b.addedAt - a.addedAt;
+    });
+
+    document.getElementById('statTotal').textContent = places.length;
+    document.getElementById('statTodo').textContent = places.filter(function (p) { return p.status === 'to-visit'; }).length;
+    document.getElementById('statDone').textContent = places.filter(function (p) { return p.status === 'visited'; }).length;
+
+    if (filtered.length === 0) {
+      grid.hidden = true;
+      empty.hidden = false;
+      emptyText.textContent = places.length === 0
+        ? "Your list is empty. Add the first stop on your rounds — a cafe, an Irani joint, a favourite thali place."
+        : "Nothing matches those filters.";
+    } else {
+      grid.hidden = false;
+      empty.hidden = true;
+      grid.innerHTML = filtered.map(cardMarkup).join('');
+    }
+  }
+
+  grid.addEventListener('click', function (e) {
+    var toggleId = e.target.closest('[data-toggle]');
+    var deleteId = e.target.closest('[data-delete]');
+    var starBtn = e.target.closest('[data-star]');
+    var mapToggle = e.target.closest('[data-map-toggle]');
+
+    if (mapToggle) {
+      var mid = mapToggle.getAttribute('data-map-toggle');
+      var place2 = places.find(function (x) { return x.id === mid; });
+      var embed = grid.querySelector('[data-map-embed="' + mid + '"]');
+      if (place2 && embed) {
+        var showing = !embed.hidden;
+        if (showing) {
+          embed.hidden = true;
+          embed.innerHTML = '';
+          mapToggle.textContent = 'map';
+        } else {
+          embed.innerHTML = '<iframe src="' + mapEmbedUrl(place2) + '" loading="lazy" title="Map for ' + escapeHtml(place2.name) + '"></iframe>';
+          embed.hidden = false;
+          mapToggle.textContent = 'hide map';
+        }
+      }
+    } else if (toggleId) {
+      var id = toggleId.getAttribute('data-toggle');
+      var p = places.find(function (x) { return x.id === id; });
+      if (p) {
+        p.status = p.status === 'visited' ? 'to-visit' : 'visited';
+        if (p.status === 'to-visit') p.rating = 0;
+        save(places);
+        render();
+      }
+    } else if (deleteId) {
+      var did = deleteId.getAttribute('data-delete');
+      var target = places.find(function (x) { return x.id === did; });
+      if (target && confirm('Remove "' + target.name + '" from your list?')) {
+        places = places.filter(function (x) { return x.id !== did; });
+        save(places);
+        render();
+      }
+    } else if (starBtn) {
+      var starsEl = starBtn.closest('.stars');
+      var pid = starsEl.getAttribute('data-id');
+      var place = places.find(function (x) { return x.id === pid; });
+      var val = parseInt(starBtn.getAttribute('data-star'), 10);
+      if (place) {
+        place.rating = place.rating === val ? 0 : val;
+        save(places);
+        render();
+      }
+    }
+  });
+
+  render();
+})();
+</script>
