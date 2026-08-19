@@ -673,40 +673,48 @@
     localStorage.setItem(STORAGE_KEY, JSON.stringify(places));
   }
 
+  var SEED_VERSION = 2;
+
   var SEED_PLACES = [
-    { name: 'Sammy Sosa' },
-    { name: 'Canteena' },
-    { name: '7 Hill' },
-    { name: 'Toto’s' },
-    { name: 'Mia Kebab' },
-    { name: 'Stables' },
-    { name: 'Dough & Joe', notes: 'Pizza' },
-    { name: 'Boojie' },
-    { name: 'Punchline' },
-    { name: 'Bastian', area: 'Dadar' },
-    { name: 'Vaga Maga', notes: 'Ramen' },
-    { name: 'Gokul' },
-    { name: 'Road House Blues' },
-    { name: 'Everhome Cafe', category: 'Cafe' },
-    { name: 'Araku' },
-    { name: 'Kuuraku' },
-    { name: 'Bang Bang Noodle' },
-    { name: 'Rumbaba' },
-    { name: 'Sagar Chinese' },
-    { name: 'Onrique' },
-    { name: 'Oh Pedro' },
-    { name: 'Promenade' },
-    { name: 'Cyclist' },
-    { name: 'Gracias Granny' },
-    { name: 'Maji Sagar' },
-    { name: 'Pass the Salt' },
-    { name: 'Bombay Daak' },
-    { name: 'Torii' },
-    { name: 'Step Cafe', category: 'Cafe' },
-    { name: 'Bandra Born' },
-    { name: 'Pot Pot' },
-    { name: 'Steam Room' }
+    { name: 'Sammy Sosa', area: 'Andheri West', category: 'Restaurant', dishes: 'Chacho nachos, Peri peri chicken, Chocolate mud pie' },
+    { name: 'Canteena', notesAppend: 'Unverified — couldn’t confirm the exact venue, double-check on Maps.' },
+    { name: '7 Hill', area: 'Juhu', category: 'Restaurant', dishes: 'Chilli chicken, Chinese chicken, Locha naan, Paneer malai kebab' },
+    { name: 'Toto’s', area: 'Bandra West', category: 'Bar', dishes: 'Chilli cheese toast, Kheema pav, Chicken lollipops, Peanut masala' },
+    { name: 'Mia Kebab', area: 'Khar West', category: 'Street Food', dishes: 'Chicken Changezi tandoori, Zaatar naan, Mutton seekh kebabs' },
+    { name: 'Stables', area: 'Andheri East', category: 'Bar', dishes: 'Wild mushroom risotto, Whiskey sour, Chicken sliders, Tiramisu' },
+    { name: 'Dough & Joe', notes: 'Pizza', area: 'Bandra West', category: 'Cafe', dishes: 'Thecha prawns pizza, Bombay keema pizza, Vietnamese coffee' },
+    { name: 'Boojie', area: 'Bandra West', category: 'Cafe', dishes: 'Croissants, Hash brown, Greek salad, Mushroom bruschetta' },
+    { name: 'Punchline', area: 'Bandra West', category: 'Bar', dishes: 'Ghee-nius cocktail, Pickled packs, Crispy arbi & tender coconut' },
+    { name: 'Bastian', area: 'Dadar', category: 'Restaurant', dishes: 'Ceviche, Crispy chicken bao, Chicken bulgogi bowl, Mille feuille' },
+    { name: 'Vaga Maga', notes: 'Ramen', notesAppend: 'Unverified — couldn’t confirm the exact venue, double-check on Maps.' },
+    { name: 'Gokul', area: 'Colaba', category: 'Bar', dishes: 'Chicken biryani, Chicken kathi roll, Fried surmai fish' },
+    { name: 'Road House Blues', area: 'Andheri West', category: 'Bar', dishes: 'Keema variants, Mojito, Bluez special cocktail' },
+    { name: 'Everhome Cafe', category: 'Cafe', area: 'Bandra West', dishes: 'House rustic bread, Smoked cinnamon cappuccino' },
+    { name: 'Araku', area: 'Colaba', category: 'Cafe', dishes: 'Avocado toast, Scotch eggs, Specialty coffee blends' },
+    { name: 'Kuuraku', area: 'Bandra West', category: 'Restaurant', dishes: 'Yakitori (chicken, bonjiri), Tomi takikomi gohan, Ebi tempura' },
+    { name: 'Bang Bang Noodle', area: 'Goregaon West', category: 'Restaurant', dishes: 'Ma la dry noodles, Chongqing wan za mian, Chilli oil soft serve' },
+    { name: 'Rumbaba', area: 'Andheri', category: 'Cafe' },
+    { name: 'Sagar Chinese', area: 'Juhu', category: 'Street Food', dishes: 'Manchow soup, Chicken crispy, Triple rice, Burnt garlic rice' },
+    { name: 'Onrique', area: 'Bandra West', category: 'Restaurant', dishes: 'Wild mushroom & onion pizza, Falafel wraps, Vegetarian donbu' },
+    { name: 'Oh Pedro', area: 'Bandra Kurla Complex', category: 'Restaurant', dishes: 'Ceviche, Burrata, Prawn bel-chow with sourdough bao, Vasco sour' },
+    { name: 'Promenade', notesAppend: 'Unverified — couldn’t confirm the exact venue, double-check on Maps.' },
+    { name: 'Cyclist', category: 'Cafe', notesAppend: 'Unverified — couldn’t confirm the exact venue, double-check on Maps.' },
+    { name: 'Gracias Granny', area: 'Santacruz West', category: 'Restaurant', dishes: 'Churros, Tacos, Nachos, Burritos' },
+    { name: 'Maji Sagar', area: 'Tardeo', category: 'Restaurant', dishes: 'Pav bhaji, Rabdi falooda, Spring dosa, Masala pav' },
+    { name: 'Pass the Salt', area: 'Fort', category: 'Restaurant', dishes: 'Chicago deep-dish pizza, "Pass The Salt, Please" gelato' },
+    { name: 'Bombay Daak', area: 'Bandra West', category: 'Bar', dishes: 'Shikaar ka achaar, Bombil fry, Pork & smoke' },
+    { name: 'Torii', area: 'Khar', category: 'Restaurant', dishes: 'Crispy truffle sushi rolls, Chicken yakitori, Charred broccoli' },
+    { name: 'Step Cafe', category: 'Cafe', area: 'Bandra West', dishes: 'Hot chocolate, Sea salt coffee' },
+    { name: 'Bandra Born', area: 'Bandra West', category: 'Restaurant', dishes: 'Chilli cheese toast, Potato & corn croquettes, Caramel custard' },
+    { name: 'Pot Pot', area: 'Lower Parel', category: 'Restaurant', dishes: 'Tandoori baby chicken, Paan kulfi' },
+    { name: 'Steam Room', area: 'Bandra West', category: 'Restaurant', dishes: 'Ma la chilli wontons, Jhol momos, Truffle mushroom xiao long bao, Dan dan ramen' }
   ];
+
+  function seedNotes(p) {
+    var n = p.notes || '';
+    if (p.notesAppend) n = n ? n + ' ' + p.notesAppend : p.notesAppend;
+    return n;
+  }
 
   function seedPlaces() {
     var base = Date.now();
@@ -717,7 +725,7 @@
         area: p.area || '',
         category: p.category || 'Restaurant',
         link: '',
-        notes: p.notes || '',
+        notes: seedNotes(p),
         dishes: p.dishes || '',
         status: 'to-visit',
         rating: 0,
@@ -726,10 +734,35 @@
     });
   }
 
+  function migrateSeedData(list) {
+    var key = 'tiffin-list-seed-version';
+    if (localStorage.getItem(key) === String(SEED_VERSION)) return list;
+    var changed = false;
+    list.forEach(function (place) {
+      if (typeof place.id !== 'string' || place.id.indexOf('seed-') !== 0) return;
+      var idx = parseInt(place.id.split('-')[1], 10);
+      var seed = SEED_PLACES[idx];
+      if (!seed || seed.name !== place.name) return;
+      if (seed.area && !place.area) { place.area = seed.area; changed = true; }
+      if (seed.category && place.category !== seed.category) { place.category = seed.category; changed = true; }
+      if (seed.dishes && !place.dishes) { place.dishes = seed.dishes; changed = true; }
+      if (seed.notesAppend && place.notes.indexOf(seed.notesAppend) === -1) {
+        place.notes = place.notes ? place.notes + ' ' + seed.notesAppend : seed.notesAppend;
+        changed = true;
+      }
+    });
+    localStorage.setItem(key, String(SEED_VERSION));
+    if (changed) save(list);
+    return list;
+  }
+
   var places = load();
   if (places.length === 0) {
     places = seedPlaces();
     save(places);
+    localStorage.setItem('tiffin-list-seed-version', String(SEED_VERSION));
+  } else {
+    places = migrateSeedData(places);
   }
 
   var grid = document.getElementById('grid');
