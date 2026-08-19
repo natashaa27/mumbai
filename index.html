@@ -429,7 +429,6 @@
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
-    margin-top: auto;
     padding-top: 8px;
     gap: 8px 10px;
   }
@@ -482,7 +481,9 @@
 
   .map-embed {
     position: relative;
-    margin-top: 2px;
+    flex: none;
+    margin-top: auto;
+    height: 140px;
     border-radius: var(--radius);
     overflow: hidden;
     border: 1px solid var(--line);
@@ -492,7 +493,7 @@
   .map-embed iframe {
     display: block;
     width: 100%;
-    height: 140px;
+    height: 100%;
     border: 0;
     pointer-events: none;
     filter: grayscale(0.15) contrast(1.02);
