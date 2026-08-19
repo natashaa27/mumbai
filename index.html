@@ -642,7 +642,63 @@
     localStorage.setItem(STORAGE_KEY, JSON.stringify(places));
   }
 
+  var SEED_PLACES = [
+    { name: 'Sammy Sosa' },
+    { name: 'Canteena' },
+    { name: '7 Hill' },
+    { name: 'Toto’s' },
+    { name: 'Mia Kebab' },
+    { name: 'Stables' },
+    { name: 'Dough & Joe', notes: 'Pizza' },
+    { name: 'Boojie' },
+    { name: 'Punchline' },
+    { name: 'Bastian', area: 'Dadar' },
+    { name: 'Vaga Maga', notes: 'Ramen' },
+    { name: 'Gokul' },
+    { name: 'Road House Blues' },
+    { name: 'Everhome Cafe', category: 'Cafe' },
+    { name: 'Araku' },
+    { name: 'Kuuraku' },
+    { name: 'Bang Bang Noodle' },
+    { name: 'Rumbaba' },
+    { name: 'Sagar Chinese' },
+    { name: 'Onrique' },
+    { name: 'Oh Pedro' },
+    { name: 'Promenade' },
+    { name: 'Cyclist' },
+    { name: 'Gracias Granny' },
+    { name: 'Maji Sagar' },
+    { name: 'Pass the Salt' },
+    { name: 'Bombay Daak' },
+    { name: 'Torii' },
+    { name: 'Step Cafe', category: 'Cafe' },
+    { name: 'Bandra Born' },
+    { name: 'Pot Pot' },
+    { name: 'Steam Room' }
+  ];
+
+  function seedPlaces() {
+    var base = Date.now();
+    return SEED_PLACES.map(function (p, i) {
+      return {
+        id: 'seed-' + i + '-' + Math.random().toString(36).slice(2, 7),
+        name: p.name,
+        area: p.area || '',
+        category: p.category || 'Restaurant',
+        link: '',
+        notes: p.notes || '',
+        status: 'to-visit',
+        rating: 0,
+        addedAt: base - i
+      };
+    });
+  }
+
   var places = load();
+  if (places.length === 0) {
+    places = seedPlaces();
+    save(places);
+  }
 
   var grid = document.getElementById('grid');
   var empty = document.getElementById('empty');
