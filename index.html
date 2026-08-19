@@ -329,6 +329,27 @@
     align-items: flex-start;
   }
 
+  .card-top-actions {
+    flex: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .edit-icon-btn {
+    flex: none;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--paper-sunk);
+    color: var(--ink-soft);
+    border: 1px solid var(--line);
+  }
+  .edit-icon-btn:hover { background: var(--brass-tint); color: var(--brass-strong); border-color: var(--brass-tint); }
+
   .card-id {
     display: flex;
     gap: 10px;
@@ -459,19 +480,8 @@
     align-items: center;
   }
 
-  .icon-link {
-    color: var(--sage);
-    text-decoration: none;
-    font-size: 12px;
-    white-space: nowrap;
-    border-bottom: 1px dotted var(--sage);
-    background: none;
-    padding: 3px 0;
-    font: inherit;
-  }
-  .icon-link:hover { color: var(--brass-strong); border-color: var(--brass-strong); }
-
   .map-embed {
+    position: relative;
     margin-top: 2px;
     border-radius: var(--radius);
     overflow: hidden;
@@ -482,8 +492,9 @@
   .map-embed iframe {
     display: block;
     width: 100%;
-    height: 160px;
+    height: 140px;
     border: 0;
+    pointer-events: none;
     filter: grayscale(0.15) contrast(1.02);
   }
 
@@ -492,6 +503,33 @@
   }
   :root[data-theme="dark"] .map-embed iframe { filter: grayscale(0.3) invert(0.92) contrast(0.9) hue-rotate(180deg); }
   :root[data-theme="light"] .map-embed iframe { filter: grayscale(0.15) contrast(1.02); }
+
+  .map-overlay {
+    position: absolute;
+    inset: 0;
+  }
+  .map-overlay:focus-visible { outline: 2px solid var(--brass); outline-offset: -2px; }
+
+  .map-hint {
+    position: absolute;
+    bottom: 6px;
+    right: 6px;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    background: var(--paper-raised);
+    color: var(--ink-soft);
+    font-size: 10px;
+    font-weight: 600;
+    padding: 3px 7px;
+    border-radius: 20px;
+    opacity: 0.9;
+    pointer-events: none;
+  }
+
+  .map-overlay:hover ~ .map-hint, .map-overlay:focus-visible ~ .map-hint {
+    color: var(--brass-strong);
+  }
 
   .delete-btn {
     background: none;
@@ -502,17 +540,6 @@
     opacity: 0.75;
   }
   .delete-btn:hover { opacity: 1; }
-
-  .edit-btn {
-    background: none;
-    color: var(--sage);
-    font-size: 12px;
-    white-space: nowrap;
-    padding: 3px 0;
-    border-bottom: 1px dotted var(--sage);
-    font: inherit;
-  }
-  .edit-btn:hover { color: var(--brass-strong); border-color: var(--brass-strong); }
 
   /* ---------- empty state ---------- */
   .empty {
@@ -1028,20 +1055,26 @@
               (meta ? '<div class="meta">' + meta + '</div>' : '') +
             '</div>' +
           '</div>' +
-          '<span class="tab" data-category="' + catAttr + '">' + escapeHtml(place.category) + '</span>' +
+          '<div class="card-top-actions">' +
+            '<span class="tab" data-category="' + catAttr + '">' + escapeHtml(place.category) + '</span>' +
+            '<button type="button" class="edit-icon-btn" data-edit="' + place.id + '" aria-label="Edit ' + escapeHtml(place.name) + '">' +
+              '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 20h9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>' +
+            '</button>' +
+          '</div>' +
         '</div>' +
         (place.notes ? '<div class="notes">' + escapeHtml(place.notes) + '</div>' : '') +
         (place.dishes ? '<div class="dishes"><b>Try</b>' + escapeHtml(place.dishes) + '</div>' : '') +
         (isVisited ? starsMarkup(place) : '') +
-        '<div class="map-embed" data-map-embed="' + place.id + '" hidden></div>' +
+        '<div class="map-embed">' +
+          '<iframe src="' + mapEmbedUrl(place) + '" loading="lazy" title="Map for ' + escapeHtml(place.name) + '" tabindex="-1"></iframe>' +
+          '<a class="map-overlay" href="' + escapeHtml(mapOpenUrl(place)) + '" target="_blank" rel="noopener noreferrer" aria-label="Open ' + escapeHtml(place.name) + ' on Google Maps"></a>' +
+          '<span class="map-hint">↗ Maps</span>' +
+        '</div>' +
         '<div class="card-bottom">' +
           '<button type="button" class="status-btn' + (isVisited ? ' is-visited' : '') + '" data-toggle="' + place.id + '">' +
             '<span class="dot"></span>' + (isVisited ? 'Visited' : 'To visit') +
           '</button>' +
           '<div class="row-actions">' +
-            '<button type="button" class="icon-link" data-map-toggle="' + place.id + '">map</button>' +
-            '<a class="icon-link" href="' + escapeHtml(mapOpenUrl(place)) + '" target="_blank" rel="noopener noreferrer">open</a>' +
-            '<button type="button" class="edit-btn" data-edit="' + place.id + '">edit</button>' +
             '<button type="button" class="delete-btn" data-delete="' + place.id + '" aria-label="Remove ' + escapeHtml(place.name) + '">Remove</button>' +
           '</div>' +
         '</div>' +
@@ -1119,29 +1152,12 @@
     var toggleId = e.target.closest('[data-toggle]');
     var deleteId = e.target.closest('[data-delete]');
     var starBtn = e.target.closest('[data-star]');
-    var mapToggle = e.target.closest('[data-map-toggle]');
     var editId = e.target.closest('[data-edit]');
 
     if (editId) {
       var eid = editId.getAttribute('data-edit');
       var editPlace = places.find(function (x) { return x.id === eid; });
       if (editPlace) openEditDialog(editPlace);
-    } else if (mapToggle) {
-      var mid = mapToggle.getAttribute('data-map-toggle');
-      var place2 = places.find(function (x) { return x.id === mid; });
-      var embed = grid.querySelector('[data-map-embed="' + mid + '"]');
-      if (place2 && embed) {
-        var showing = !embed.hidden;
-        if (showing) {
-          embed.hidden = true;
-          embed.innerHTML = '';
-          mapToggle.textContent = 'map';
-        } else {
-          embed.innerHTML = '<iframe src="' + mapEmbedUrl(place2) + '" loading="lazy" title="Map for ' + escapeHtml(place2.name) + '"></iframe>';
-          embed.hidden = false;
-          mapToggle.textContent = 'hide map';
-        }
-      }
     } else if (toggleId) {
       var id = toggleId.getAttribute('data-toggle');
       var p = places.find(function (x) { return x.id === id; });
