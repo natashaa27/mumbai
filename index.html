@@ -329,13 +329,6 @@
     align-items: flex-start;
   }
 
-  .card-top-actions {
-    flex: none;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
   .edit-icon-btn {
     flex: none;
     width: 26px;
@@ -378,9 +371,13 @@
   }
 
   .card .meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
     font-size: 12px;
     color: var(--sage);
-    margin-top: 2px;
+    margin-top: 4px;
     letter-spacing: 0.01em;
   }
 
@@ -1053,15 +1050,14 @@
             '<span class="avatar" data-category="' + catAttr + '">' + emoji + '</span>' +
             '<div>' +
               '<h3>' + escapeHtml(place.name) + '</h3>' +
-              (meta ? '<div class="meta">' + meta + '</div>' : '') +
+              '<div class="meta">' + (meta ? '<span>' + meta + '</span>' : '') +
+                '<span class="tab" data-category="' + catAttr + '">' + escapeHtml(place.category) + '</span>' +
+              '</div>' +
             '</div>' +
           '</div>' +
-          '<div class="card-top-actions">' +
-            '<span class="tab" data-category="' + catAttr + '">' + escapeHtml(place.category) + '</span>' +
-            '<button type="button" class="edit-icon-btn" data-edit="' + place.id + '" aria-label="Edit ' + escapeHtml(place.name) + '">' +
-              '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 20h9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>' +
-            '</button>' +
-          '</div>' +
+          '<button type="button" class="edit-icon-btn" data-edit="' + place.id + '" aria-label="Edit ' + escapeHtml(place.name) + '">' +
+            '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 20h9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>' +
+          '</button>' +
         '</div>' +
         (place.notes ? '<div class="notes">' + escapeHtml(place.notes) + '</div>' : '') +
         (place.dishes ? '<div class="dishes"><b>Try</b>' + escapeHtml(place.dishes) + '</div>' : '') +
