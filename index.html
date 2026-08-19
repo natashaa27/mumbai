@@ -6,73 +6,98 @@
   }
 
   :root {
-    --ink: #18181b;
-    --ink-soft: #52525b;
-    --paper: #fafafa;
+    --ink: #2b2013;
+    --ink-soft: #6b5c46;
+    --paper: #fff7ea;
     --paper-raised: #ffffff;
-    --paper-sunk: #efeff0;
-    --brass: #52525b;
-    --brass-strong: #18181b;
-    --brass-tint: #ececed;
-    --maroon: #b3261e;
-    --maroon-tint: #fbeceb;
-    --sage: #8a8a90;
-    --line: #e4e4e7;
-    --shadow: 0 1px 0 rgba(24, 24, 27, 0.05);
-    --radius: 3px;
+    --paper-sunk: #fdecd2;
+    --brass: #ff5a36;
+    --brass-strong: #e6431f;
+    --brass-tint: #ffe4d1;
+    --maroon: #d63447;
+    --maroon-tint: #ffe1e4;
+    --sage: #8a7a63;
+    --line: #f3ddc2;
+    --shadow: 0 3px 10px rgba(43, 32, 19, 0.09);
+    --radius: 16px;
+    --radius-sm: 10px;
+    --cat-cafe-bg: #ffe3b8; --cat-cafe-fg: #8a5a10;
+    --cat-restaurant-bg: #ffd7ce; --cat-restaurant-fg: #b23a26;
+    --cat-bakery-bg: #fff0ad; --cat-bakery-fg: #836a05;
+    --cat-bar-bg: #e6dbff; --cat-bar-fg: #5b3fc4;
+    --cat-street-food-bg: #d3f3dc; --cat-street-food-fg: #1f8a4c;
+    --cat-sweets-bg: #ffd9ec; --cat-sweets-fg: #c23a83;
     color-scheme: light;
   }
 
   @media (prefers-color-scheme: dark) {
     :root {
-      --ink: #f4f4f5;
-      --ink-soft: #a1a1aa;
-      --paper: #101012;
-      --paper-raised: #18181b;
-      --paper-sunk: #0b0b0c;
-      --brass: #a1a1aa;
-      --brass-strong: #f4f4f5;
-      --brass-tint: #27272a;
-      --maroon: #f2726f;
-      --maroon-tint: #3a1d1c;
-      --sage: #71717a;
-      --line: #2a2a2e;
-      --shadow: 0 1px 0 rgba(0, 0, 0, 0.35);
+      --ink: #f7ecd8;
+      --ink-soft: #cdbfa8;
+      --paper: #1c1420;
+      --paper-raised: #271c2e;
+      --paper-sunk: #150f1a;
+      --brass: #ff8a63;
+      --brass-strong: #ffb199;
+      --brass-tint: #4a2415;
+      --maroon: #ff6b7a;
+      --maroon-tint: #4a1e22;
+      --sage: #b3a690;
+      --line: #3a2d3a;
+      --shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+      --cat-cafe-bg: #4a3410; --cat-cafe-fg: #ffcf8a;
+      --cat-restaurant-bg: #4a231d; --cat-restaurant-fg: #ff9c86;
+      --cat-bakery-bg: #453a10; --cat-bakery-fg: #ffe066;
+      --cat-bar-bg: #2e2050; --cat-bar-fg: #c3aaff;
+      --cat-street-food-bg: #133023; --cat-street-food-fg: #7fe8ab;
+      --cat-sweets-bg: #401f34; --cat-sweets-fg: #ff9ed1;
       color-scheme: dark;
     }
   }
 
   :root[data-theme="dark"] {
-    --ink: #f4f4f5;
-    --ink-soft: #a1a1aa;
-    --paper: #101012;
-    --paper-raised: #18181b;
-    --paper-sunk: #0b0b0c;
-    --brass: #a1a1aa;
-    --brass-strong: #f4f4f5;
-    --brass-tint: #27272a;
-    --maroon: #f2726f;
-    --maroon-tint: #3a1d1c;
-    --sage: #71717a;
-    --line: #2a2a2e;
-    --shadow: 0 1px 0 rgba(0, 0, 0, 0.35);
+    --ink: #f7ecd8;
+    --ink-soft: #cdbfa8;
+    --paper: #1c1420;
+    --paper-raised: #271c2e;
+    --paper-sunk: #150f1a;
+    --brass: #ff8a63;
+    --brass-strong: #ffb199;
+    --brass-tint: #4a2415;
+    --maroon: #ff6b7a;
+    --maroon-tint: #4a1e22;
+    --sage: #b3a690;
+    --line: #3a2d3a;
+    --shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+    --cat-cafe-bg: #4a3410; --cat-cafe-fg: #ffcf8a;
+    --cat-restaurant-bg: #4a231d; --cat-restaurant-fg: #ff9c86;
+    --cat-bakery-bg: #453a10; --cat-bakery-fg: #ffe066;
+    --cat-bar-bg: #2e2050; --cat-bar-fg: #c3aaff;
+    --cat-street-food-bg: #133023; --cat-street-food-fg: #7fe8ab;
+    --cat-sweets-bg: #401f34; --cat-sweets-fg: #ff9ed1;
     color-scheme: dark;
   }
 
   :root[data-theme="light"] {
-    --ink: #18181b;
-    --ink-soft: #52525b;
-    --paper: #fafafa;
+    --ink: #2b2013;
+    --ink-soft: #6b5c46;
+    --paper: #fff7ea;
     --paper-raised: #ffffff;
-    --paper-sunk: #efeff0;
-    --brass: #52525b;
-    --brass-strong: #18181b;
-    --brass-tint: #ececed;
-    --maroon: #b3261e;
-    --maroon-tint: #fbeceb;
-    --sage: #8a8a90;
-    --line: #e4e4e7;
-    --shadow: 0 1px 0 rgba(24, 24, 27, 0.05);
+    --paper-sunk: #fdecd2;
+    --brass: #ff5a36;
+    --brass-strong: #e6431f;
+    --brass-tint: #ffe4d1;
+    --maroon: #d63447;
+    --maroon-tint: #ffe1e4;
+    --sage: #8a7a63;
+    --line: #f3ddc2;
+    --shadow: 0 3px 10px rgba(43, 32, 19, 0.09);
+    --cat-cafe-bg: #ffe3b8; --cat-cafe-fg: #8a5a10;
+    --cat-restaurant-bg: #ffd7ce; --cat-restaurant-fg: #b23a26;
+    --cat-bakery-bg: #fff0ad; --cat-bakery-fg: #836a05;
+    --cat-bar-bg: #e6dbff; --cat-bar-fg: #5b3fc4;
+    --cat-street-food-bg: #d3f3dc; --cat-street-food-fg: #1f8a4c;
+    --cat-sweets-bg: #ffd9ec; --cat-sweets-fg: #c23a83;
     color-scheme: light;
   }
 
@@ -103,23 +128,47 @@
 
   a { color: inherit; }
 
-  /* ---------- checkerboard motif ---------- */
+  /* ---------- bunting stripe motif ---------- */
   .checker {
     height: 10px;
-    background-image:
-      linear-gradient(45deg, var(--brass) 25%, transparent 25%, transparent 75%, var(--brass) 75%),
-      linear-gradient(45deg, var(--brass) 25%, transparent 25%, transparent 75%, var(--brass) 75%);
-    background-size: 10px 10px;
-    background-position: 0 0, 5px 5px;
-    background-color: var(--paper-sunk);
-    opacity: 0.55;
+    background: repeating-linear-gradient(
+      135deg,
+      var(--cat-cafe-fg) 0 14px,
+      var(--cat-restaurant-fg) 14px 28px,
+      var(--cat-bakery-fg) 28px 42px,
+      var(--cat-bar-fg) 42px 56px,
+      var(--cat-street-food-fg) 56px 70px,
+      var(--cat-sweets-fg) 70px 84px
+    );
+    opacity: 0.9;
   }
 
   /* ---------- header ---------- */
   header.board {
+    position: relative;
+    overflow: hidden;
     background: var(--paper-raised);
     border-bottom: 3px solid var(--ink);
     padding: 28px 20px 0;
+  }
+
+  .doodles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .doodle {
+    position: absolute;
+  }
+
+  .doodle-chai { top: 2px; right: 130px; color: var(--cat-cafe-fg); opacity: 0.6; transform: rotate(-6deg); }
+  .doodle-vadapav { top: 6px; left: -8px; color: var(--cat-street-food-fg); opacity: 0.55; transform: rotate(4deg); }
+  .doodle-auto { bottom: 16px; right: 8px; color: var(--cat-bar-fg); opacity: 0.55; transform: rotate(-3deg); }
+  .doodle-palm { bottom: -8px; left: 46%; color: var(--cat-bakery-fg); opacity: 0.35; }
+
+  @media (max-width: 720px) {
+    .doodles { display: none; }
   }
 
   .board-inner {
@@ -134,7 +183,8 @@
   }
 
   .wordmark {
-    font-weight: 700;
+    font-family: ui-rounded, "SF Pro Rounded", "Hiragino Maru Gothic ProN", "Segoe UI", Verdana, sans-serif;
+    font-weight: 800;
     font-size: clamp(28px, 5vw, 38px);
     letter-spacing: -0.01em;
     margin: 0;
@@ -142,8 +192,7 @@
   }
 
   .wordmark span {
-    color: var(--ink-soft);
-    font-weight: 400;
+    color: var(--brass);
   }
 
   .tagline {
@@ -200,7 +249,7 @@
     color: var(--ink);
     background: var(--paper-raised);
     border: 1px solid var(--line);
-    border-radius: var(--radius);
+    border-radius: var(--radius-sm);
     padding: 9px 12px;
   }
 
@@ -229,11 +278,11 @@
   }
 
   .btn-add {
-    background: var(--ink);
-    color: var(--paper);
+    background: var(--brass);
+    color: #fff;
     padding: 9px 16px;
-    border-radius: var(--radius);
-    font-weight: 600;
+    border-radius: var(--radius-sm);
+    font-weight: 700;
     white-space: nowrap;
   }
 
@@ -263,7 +312,13 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
+    transform: rotate(-0.4deg);
   }
+
+  .grid .card:nth-child(3n+2) { transform: rotate(0.5deg); }
+  .grid .card:nth-child(3n+3) { transform: rotate(-0.2deg); }
+
+  .card:hover, .card:focus-within { transform: rotate(0deg); box-shadow: 0 6px 18px rgba(43, 32, 19, 0.12); }
 
   .card.visited { border-color: var(--sage); }
 
@@ -272,6 +327,25 @@
     justify-content: space-between;
     gap: 8px;
     align-items: flex-start;
+  }
+
+  .card-id {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    min-width: 0;
+  }
+
+  .avatar {
+    flex: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    background: var(--brass-tint);
   }
 
   .card h3 {
@@ -294,13 +368,20 @@
     font-size: 9.5px;
     text-transform: uppercase;
     letter-spacing: 0.07em;
-    font-weight: 600;
-    padding: 3px 7px;
-    border-radius: 2px;
+    font-weight: 700;
+    padding: 4px 9px;
+    border-radius: 20px;
     background: var(--brass-tint);
     color: var(--brass-strong);
     white-space: nowrap;
   }
+
+  .tab[data-category="Cafe"], .avatar[data-category="Cafe"] { background: var(--cat-cafe-bg); color: var(--cat-cafe-fg); }
+  .tab[data-category="Restaurant"], .avatar[data-category="Restaurant"] { background: var(--cat-restaurant-bg); color: var(--cat-restaurant-fg); }
+  .tab[data-category="Bakery"], .avatar[data-category="Bakery"] { background: var(--cat-bakery-bg); color: var(--cat-bakery-fg); }
+  .tab[data-category="Bar"], .avatar[data-category="Bar"] { background: var(--cat-bar-bg); color: var(--cat-bar-fg); }
+  .tab[data-category="Street Food"], .avatar[data-category="Street Food"] { background: var(--cat-street-food-bg); color: var(--cat-street-food-fg); }
+  .tab[data-category="Sweets"], .avatar[data-category="Sweets"] { background: var(--cat-sweets-bg); color: var(--cat-sweets-fg); }
 
   .card .notes {
     font-size: 13.5px;
@@ -441,16 +522,10 @@
   }
 
   .empty .checker-block {
-    width: 64px;
-    height: 64px;
-    margin: 0 auto 18px;
-    background-image:
-      linear-gradient(45deg, var(--line) 25%, transparent 25%, transparent 75%, var(--line) 75%),
-      linear-gradient(45deg, var(--line) 25%, transparent 25%, transparent 75%, var(--line) 75%);
-    background-size: 16px 16px;
-    background-position: 0 0, 8px 8px;
-    border-radius: var(--radius);
-    opacity: 0.6;
+    font-size: 34px;
+    line-height: 1;
+    margin: 0 auto 16px;
+    letter-spacing: 6px;
   }
 
   .empty p { max-width: 320px; margin: 0 auto; font-size: 14px; }
@@ -458,17 +533,18 @@
   /* ---------- dialog ---------- */
   dialog {
     border: none;
-    border-radius: 4px;
+    border-radius: 20px;
+    overflow: hidden;
     padding: 0;
     background: var(--paper-raised);
     color: var(--ink);
     max-width: 440px;
     width: calc(100vw - 40px);
-    box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+    box-shadow: 0 12px 40px rgba(43, 32, 19, 0.3);
   }
 
   dialog::backdrop {
-    background: rgba(20, 24, 20, 0.5);
+    background: rgba(43, 32, 19, 0.45);
   }
 
   .dialog-head {
@@ -523,11 +599,11 @@
   textarea { resize: vertical; min-height: 54px; font-family: inherit; }
 
   .submit-btn {
-    background: var(--ink);
-    color: var(--paper);
+    background: var(--brass);
+    color: #fff;
     padding: 10px;
-    border-radius: var(--radius);
-    font-weight: 600;
+    border-radius: var(--radius-sm);
+    font-weight: 700;
     margin-top: 4px;
   }
   .submit-btn:hover { opacity: 0.82; }
@@ -540,15 +616,46 @@
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    .card { transition: border-color 0.15s ease; }
+    .card { transition: border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease; }
     .status-btn, .submit-btn, .btn-add, .delete-btn { transition: background 0.15s ease, opacity 0.15s ease; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card, .card:hover, .card:focus-within { transform: none; }
   }
 </style>
 
 <header class="board">
+  <div class="doodles" aria-hidden="true">
+    <svg class="doodle doodle-chai" width="38" height="50" viewBox="0 0 40 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M10 20 L14 48 Q20 52 26 48 L30 20 Z" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>
+      <path d="M14 16 Q20 8 26 16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M16 4 Q14 8 17 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity="0.7"/>
+      <path d="M23 2 Q21 6 24 9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity="0.7"/>
+    </svg>
+    <svg class="doodle doodle-vadapav" width="50" height="38" viewBox="0 0 52 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 26 Q4 10 26 10 Q48 10 48 26 Q48 34 26 34 Q4 34 4 26 Z" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>
+      <path d="M14 24 Q26 30 38 24" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="26" cy="18" r="3" fill="currentColor" opacity="0.5"/>
+    </svg>
+    <svg class="doodle doodle-auto" width="56" height="38" viewBox="0 0 60 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M8 28 Q6 12 20 10 L38 10 Q48 10 50 22 L54 28" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+      <path d="M8 28 L54 28" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+      <circle cx="16" cy="32" r="5" stroke="currentColor" stroke-width="2.2"/>
+      <circle cx="46" cy="32" r="5" stroke="currentColor" stroke-width="2.2"/>
+      <path d="M20 10 L20 3 L34 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+    <svg class="doodle doodle-palm" width="42" height="42" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M22 40 C22 26 22 14 22 4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+      <path d="M22 10 C14 6 8 8 4 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M22 16 C30 10 36 12 40 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M22 22 C14 20 8 22 5 28" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M22 24 C30 22 36 24 39 30" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+  </div>
   <div class="board-inner">
     <div>
-      <h1 class="wordmark serif">D12<span>&rsquo;s</span> List</h1>
+      <h1 class="wordmark">D12<span>&rsquo;s</span> List</h1>
       <p class="tagline">your rounds of Mumbai, one address at a time</p>
     </div>
     <div class="stats">
@@ -593,7 +700,7 @@
 <main>
   <div class="grid" id="grid"></div>
   <div class="empty" id="empty" hidden>
-    <div class="checker-block"></div>
+    <div class="checker-block" aria-hidden="true">☕🥟🍹</div>
     <p id="emptyText">Your list is empty. Add the first stop on your rounds — a cafe, an Irani joint, a favourite thali place.</p>
   </div>
 </main>
@@ -894,20 +1001,34 @@
     return 'https://maps.google.com/maps?q=' + mapQuery(place) + '&z=15&output=embed';
   }
 
+  var CATEGORY_EMOJI = {
+    'Cafe': '☕',
+    'Restaurant': '🍽️',
+    'Bakery': '🥐',
+    'Bar': '🍸',
+    'Street Food': '🌮',
+    'Sweets': '🍬'
+  };
+
   function cardMarkup(place) {
     var isVisited = place.status === 'visited';
     var metaParts = [];
     if (place.area) metaParts.push(escapeHtml(place.area));
     var meta = metaParts.join(' · ');
+    var catAttr = escapeHtml(place.category);
+    var emoji = CATEGORY_EMOJI[place.category] || '🍴';
 
     return (
       '<article class="card' + (isVisited ? ' visited' : '') + '" data-id="' + place.id + '">' +
         '<div class="card-top">' +
-          '<div>' +
-            '<h3>' + escapeHtml(place.name) + '</h3>' +
-            (meta ? '<div class="meta">' + meta + '</div>' : '') +
+          '<div class="card-id">' +
+            '<span class="avatar" data-category="' + catAttr + '">' + emoji + '</span>' +
+            '<div>' +
+              '<h3>' + escapeHtml(place.name) + '</h3>' +
+              (meta ? '<div class="meta">' + meta + '</div>' : '') +
+            '</div>' +
           '</div>' +
-          '<span class="tab">' + escapeHtml(place.category) + '</span>' +
+          '<span class="tab" data-category="' + catAttr + '">' + escapeHtml(place.category) + '</span>' +
         '</div>' +
         (place.notes ? '<div class="notes">' + escapeHtml(place.notes) + '</div>' : '') +
         (place.dishes ? '<div class="dishes"><b>Try</b>' + escapeHtml(place.dishes) + '</div>' : '') +
